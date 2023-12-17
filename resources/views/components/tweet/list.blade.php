@@ -11,6 +11,7 @@
                 </span>
                 <p class="text-gray-600">{!! nl2br(e($tweet->content)) !!}</br>
                 {!! nl2br(e($tweet->updated_at)) !!}</p>
+                <x-tweet.images :images="$tweet->images"/>
             </div>
             <div>
                 <!-- TODO 編集と削除 -->
