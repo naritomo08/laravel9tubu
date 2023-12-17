@@ -1,66 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel9tubu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 立ち上げ概要
 
-## About Laravel
+Laravel9tubuyakisaitoソースを入手し、
+ローカル環境でデプロイするものとなります。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+必要なソースは以下にまとめてあります。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+dockerソース
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+https://github.com/naritomo08/laravel_docker
 
-## Learning Laravel
+つぶやきサイトソース
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+https://github.com/naritomo08/laravel9tubu
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 参考書籍
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+[プロフェッショナルWebプログラミング　Laravel](https://www.amazon.co.jp/gp/product/B09WMN18TR/ref=ppx_yo_dt_b_d_asin_title_351_o03?ie=UTF8&psc=1)
 
-## Laravel Sponsors
+## 事前準備
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+mac+DockerCompose+vscode+gitでの環境を構築してること。
+*Windowsでもｗｓｌ２＋Ubuntuで実施可能。
 
-### Premium Partners
+## 環境構築手順
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### ベースリポジトリをクローンする。
 
-## Contributing
+```bash
+$ git clone -b php8.2 https://github.com/naritomo08/laravel_docker.git laraveldocker
+$ cd laraveldocker
+$ rm -rf .git
+$ git clone https://github.com/naritomo08/laravel9tubu.git backend
+$ cd backend
+$ rm -rf .git
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### .envファイルを編集する。
 
-## Code of Conduct
+```bash
+$ vi .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+以下の内容に編集を行う。
 
-## Security Vulnerabilities
+APP_DEBUG = false
+QUEUE_CONNECTION=database
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 環境構築用のシェルスクリプトを実行する。
 
-## License
+```bash
+$ chmod u+x build_env.sh && ./build_env.sh
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### ファイルパーミッションを更新する。
+
+```bash
+$ chmod u+x set_permission.sh &&  ./set_permission.sh
+```
+
+### サイト設定を行う。
+
+```bash
+$ docker-compose exec laravel_php /bin/bash
+$ cd project
+
+*初回時以下のコマンドを実施
+$ chmod -R a+x node_modules
+
+$ npm run prod
+$ npm artisan storage:link
+$ php artisan cache:clear
+$ php artisan config:clear
+$ php artisan route:clear
+$ php artisan view:clear
+```
+
+### 各種サイト確認する。
+
+## サイトURL
+
+### laravel
+
+http://127.0.0.1:8080/tweet
+
+### adminer(DB管理ツール)
+
+http://127.0.0.1:8081
+
+
+* ログイン情報
+  - サーバ: laravel_db
+  - ユーザ名: laravel
+  - パスワード: password
+  - データベース: laravel
+
+### mailhog(メールサーバ)
+
+http://127.0.0.1:8025
+
+
+## コンテナ起動する方法
+
+`docker-compose.yml`が存在するフォルダーで以下のコマンドを実行する。
+
+```bash
+$ docker-compose up -d
+```
+
+## コンテナ停止する方法
+
+`docker-compose.yml`が存在するフォルダーで以下のコマンドを実行する。
+
+```bash
+$ docker-compose stop
+```
+
+## コンテナ削除する方法
+
+`docker-compose.yml`が存在するフォルダーで以下のコマンドを実行する。
+
+```bash
+$ docker-compose down
+```
+
+## 起動中のコンテナに入る
+
+### PHPコンテナ
+
+```bash
+$ docker-compose exec laravel_php /bin/bash
+```
+
+### DBコンテナ
+
+```bash
+$ docker-compose exec laravel_db /bin/bash
+```
+
+## その他
+
+開発中に以下のコマンドを実行してください。
+
+```bash
+$ docker-compose exec laravel_php /bin/bash
+$ cd project
+
+$ npm run watch
+```
+
+#### npm run watchコマンドとは
+
+npm run watchコマンドはターミナルで実行し続け、関連ファイル全部の変更を監視します。
+Webpackは変更を感知すると、アセットを自動的に再コンパイルします。
+
+## このソースをAWS(ECS)に展開したい場合
+
+backendフォルダに展開されているソースについて、
+以下のページを参考にAWS(ECS)へ展開することもできます。
+
+https://qiita.com/naritomo08/items/6e38955145d80c1435bd
+
+## このソースをOCI環境に展開したい場合
+
+以下のページで取りまとめています(作成中)
+
+https://qiita.com/naritomo08/items/a5065f1a0b159efd47a7
