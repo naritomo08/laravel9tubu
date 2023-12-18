@@ -23,11 +23,16 @@ Route::get('/', function () {
 });
 */
 
+Route::get('/', function () {
+    // redirect関数にパスを指定する方法
+    return redirect('/tweet');
+});
+
 require __DIR__.'/auth.php';
 
-Route::get('/sample', [\App\Http\Controllers\Sample\IndexController::class, 'show']);
+//Route::get('/sample', [\App\Http\Controllers\Sample\IndexController::class, 'show']);
 
-Route::get('/sample/{id}', [\App\Http\Controllers\Sample\IndexController::class, 'showId']);
+//Route::get('/sample/{id}', [\App\Http\Controllers\Sample\IndexController::class, 'showId']);
 
 Route::get('/tweet', \App\Http\Controllers\Tweet\IndexController::class)->name('tweet.index');
 Route::middleware('auth')->group(function () {
