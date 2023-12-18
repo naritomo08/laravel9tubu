@@ -37,6 +37,21 @@ $ cd backend
 $ rm -rf .git
 ```
 
+最後の.git削除コマンドについて、
+別途devlopブランチに元のLaravel9から以下の
+対応をしたソースを置いています。
+
+* Laravel MIX化
+* breeze(認証機能)導入
+* TailwindCSS 導入
+
+これを元に新たに開発いただいても構いません。
+
+以下のコマンドを入力してから.gitを削除してください。
+```bash
+$ git checkout devlop
+```
+
 ### .envファイルを編集する。
 
 ```bash
@@ -63,14 +78,18 @@ $ chmod u+x set_permission.sh &&  ./set_permission.sh
 ### サイト設定を行う。
 
 ```bash
+PHPコンテナログイン
 $ docker-compose exec laravel_php /bin/bash
 $ cd project
 
-*初回時以下のコマンドを実施
+*パブリック画面ファイル作成初回時以下のコマンドを実施
 $ chmod -R a+x node_modules
 
+パブリック画面ファイル作成
 $ npm run prod
+つぶやき機能投稿画像参照リンク作成（新たに開発する場合は必要なし）
 $ npm artisan storage:link
+Laracvelキャッシュクリア
 $ php artisan cache:clear
 $ php artisan config:clear
 $ php artisan route:clear
