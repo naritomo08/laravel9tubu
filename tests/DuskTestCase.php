@@ -19,9 +19,7 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public static function prepare(): void
     {
-        if (! static::runningInSail()) {
-            static::startChromeDriver();
-        }
+        // No need to start the ChromeDriver when using a remote one
     }
 
     /**
@@ -38,12 +36,31 @@ abstract class DuskTestCase extends BaseTestCase
             ]);
         })->all());
 
-        return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
-            DesiredCapabilities::chrome()->setCapability(
-                ChromeOptions::CAPABILITY, $options
-            )
+        $capabilities = DesiredCapabilities::chrome()->setCapability(
+            ChromeOptions::CAPABILITY, $options
         );
+
+        // タイムアウトの設定を追加
+        $capabilities->setCapability('timeouts', [
+            'implicit' => 30000, // 30秒
+            'pageLoad' => 60000, // 60秒
+            'script' => 30000, // 30秒
+        ]);
+
+        return RemoteWebDriver::create(
+            'http://selenium:4444/wd/hub',  // SeleniumサーバーのURLに変更
+            $capabilities
+        );
+    }
+
+    /**
+     * Get the base URL for the Dusk application.
+     *
+     * @return string
+     */
+    protected function baseUrl()
+    {
+        return 'http://web';  // 'web' は Docker Compose のサービス名
     }
 
     /**

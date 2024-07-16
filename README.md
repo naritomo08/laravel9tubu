@@ -185,10 +185,8 @@ php artisan test tests/Unit/Services/TweetServiceTest.php
 フィーチャーテスト
 php artisan test tests/Feature/Tweet/DeleteTest.php
 
-ブラウザテスト(M1 mac,raspiK8Sコンテナでは動かない。)
-composer require --dev laravel/dusk:^7.0
-php artisan dusk:install
-php artisan dusk
+上記テストをまとめて実施
+vendor/bin/phpunit
 
 ```
 
