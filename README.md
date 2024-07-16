@@ -174,6 +174,24 @@ $ npm run watch
 npm run watchコマンドはターミナルで実行し続け、関連ファイル全部の変更を監視します。
 Webpackは変更を感知すると、アセットを自動的に再コンパイルします。
 
+## LaravelTest(CICDにいれる予定)
+
+```bash
+PHPコンテナで動かす。
+
+ユニットテスト
+php artisan test tests/Unit/Services/TweetServiceTest.php
+
+フィーチャーテスト
+php artisan test tests/Feature/Tweet/DeleteTest.php
+
+ブラウザテスト(M1 mac,raspiK8Sコンテナでは動かない。)
+composer require --dev laravel/dusk:^7.0
+php artisan dusk:install
+php artisan dusk
+
+```
+
 ## このソースをAWS(ECS)に展開したい場合
 
 backendフォルダに展開されているソースについて、
