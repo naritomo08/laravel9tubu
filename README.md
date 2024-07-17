@@ -88,7 +88,7 @@ $ chmod -R a+x node_modules
 パブリック画面ファイル作成
 $ npm run prod
 つぶやき機能投稿画像参照リンク作成（新たに開発する場合は必要なし）
-$ npm artisan storage:link
+$ php artisan storage:link
 Laracvelキャッシュクリア
 $ php artisan cache:clear
 $ php artisan config:clear
