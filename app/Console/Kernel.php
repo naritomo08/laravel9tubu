@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('mail:send-daily-tweet-count-mail')
-            ->dailyAt('16:50');
+            ->dailyAt('7:00');
     }
 
     /**
