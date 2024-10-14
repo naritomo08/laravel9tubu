@@ -88,7 +88,7 @@ $ chmod -R a+x node_modules
 パブリック画面ファイル作成
 $ npm run prod
 つぶやき機能投稿画像参照リンク作成（新たに開発する場合は必要なし）
-$ npm artisan storage:link
+$ php artisan storage:link
 Laracvelキャッシュクリア
 $ php artisan cache:clear
 $ php artisan config:clear
@@ -173,6 +173,22 @@ $ npm run watch
 
 npm run watchコマンドはターミナルで実行し続け、関連ファイル全部の変更を監視します。
 Webpackは変更を感知すると、アセットを自動的に再コンパイルします。
+
+## LaravelTest(CICDにいれる予定)
+
+```bash
+PHPコンテナで動かす。
+
+ユニットテスト
+php artisan test tests/Unit/Services/TweetServiceTest.php
+
+フィーチャーテスト
+php artisan test tests/Feature/Tweet/DeleteTest.php
+
+上記テストをまとめて実施
+vendor/bin/phpunit
+
+```
 
 ## このソースをAWS(ECS)に展開したい場合
 
